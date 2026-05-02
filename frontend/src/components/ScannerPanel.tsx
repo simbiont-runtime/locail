@@ -7,6 +7,7 @@ import { Select } from './ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { FolderOpen, RefreshCw, Play } from 'lucide-react'
 import * as App from '../../wailsjs/go/main/App'
+import * as ScannerAPI from '../../wailsjs/go/app/ScannerAPI'
 
 // Types matching backend
 type ScanConfig = {
@@ -40,13 +41,6 @@ type ScanResult = {
 
 type ScannerPanelProps = {
   onStringsFound?: (strings: ExtractedString[]) => void
-}
-
-// Scanner API will be available after wails dev/build
-declare const ScannerAPI: {
-  ScanProject: (projectPath: string) => Promise<ScanResult>
-  GetNewStrings: (projectPath: string) => Promise<ExtractedString[]>
-  AutoTranslateNewStrings: (projectPath: string, sourceLang: string, targetLang: string) => Promise<ExtractedString[]>
 }
 
 export function ScannerPanel({ onStringsFound }: ScannerPanelProps) {

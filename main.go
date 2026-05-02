@@ -99,9 +99,11 @@ func main() {
 	scannerSvc, err := scannersvc.NewService(".")
 	if err != nil {
 		println("Scanner service error:", err.Error())
+	} else {
+		scannerSvc.SetTranslator(transSvc)
 	}
-	scannerSvc.SetTranslator(transSvc)
 	scannerAPI := apiapp.NewScannerAPI(scannerSvc)
+	_ = scannerAPI // May be nil if scannerSvc is nil
 
 	// Create application with options
 	wails.Run(&options.App{

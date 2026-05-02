@@ -247,3 +247,28 @@ export function CanResolveFilePaths(): boolean;
 
 // Resolves file paths for an array of files
 export function ResolveFilePaths(files: File[]): void
+
+// Dialog options interface
+export interface OpenDialogOptions {
+    title?: string;
+    defaultPath?: string;
+    filters?: Array<{name: string, pattern: string[]}>;
+}
+
+// [OpenDirectoryDialog](https://wails.io/docs/reference/runtime/dialog#opendirectorydialog)
+// Opens a directory selection dialog.
+export function OpenDirectoryDialog(options: OpenDialogOptions): Promise<string>
+
+// Dialog filter interface
+export interface FileFilter {
+    Name: string;
+    Pattern: string[];
+}
+
+// [OpenFileDialog](https://wails.io/docs/reference/runtime/dialog#openfiledialog)
+// Opens a file selection dialog.
+export function OpenFileDialog(options: {title?: string, defaultPath?: string, filters?: FileFilter[]}): Promise<string>
+
+// [SaveFileDialog](https://wails.io/docs/reference/runtime/dialog#savefiledialog)
+// Opens a file save dialog.
+export function SaveFileDialog(options: {title?: string, defaultPath?: string, filters?: FileFilter[]}): Promise<string>

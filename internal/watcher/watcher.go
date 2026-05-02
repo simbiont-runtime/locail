@@ -13,6 +13,15 @@ import (
 	"locail/internal/scanner"
 )
 
+// ChangeOp represents the type of file change.
+type ChangeOp string
+
+const (
+	ChangeOpCreate ChangeOp = "create"
+	ChangeOpModify ChangeOp = "modify"
+	ChangeOpDelete ChangeOp = "delete"
+)
+
 // FileWatcher watches for file changes and triggers incremental scanning.
 type FileWatcher struct {
 	watcher   *fsnotify.Watcher
@@ -20,7 +29,7 @@ type FileWatcher struct {
 	cache     Cache
 	debounce  time.Duration
 	mu        sync.Mutex
-	callbacks []func(filePath string, op scanner.ChangeOp)
+	callbacks []func(filePath string, op ChangeOp)
 	running   bool
 }
 
@@ -29,6 +38,7 @@ type Cache interface {
 	GetFileHash(path string) (string, error)
 	SetFileHash(path, hash string) error
 	DeleteStringsForFile(path string) error
+	AddString(s *scanner.ExtractedString) error
 }
 
 // NewFileWatcher creates a new file watcher.
@@ -39,16 +49,16 @@ func NewFileWatcher(scanner scanner.Scanner, cache Cache) (*FileWatcher, error) 
 	}
 
 	return &FileWatcher{
-		watcher:  w,
-		scanner:  scanner,
-		cache:    cache,
-		debounce: 500 * time.Millisecond,
-		callbacks: make([]func(filePath string, op scanner.ChangeOp), 0),
+		watcher:   w,
+		scanner:   scanner,
+		cache:     cache,
+		debounce:  500 * time.Millisecond,
+		callbacks: make([]func(filePath string, op ChangeOp), 0),
 	}, nil
 }
 
 // OnChange registers a callback for file changes.
-func (fw *FileWatcher) OnChange(callback func(filePath string, op scanner.ChangeOp)) {
+func (fw *FileWatcher) OnChange(callback func(filePath string, op ChangeOp)) {
 	fw.mu.Lock()
 	defer fw.mu.Unlock()
 	fw.callbacks = append(fw.callbacks, callback)
@@ -161,8 +171,8 @@ func (fw *FileWatcher) handleFileChange(ctx context.Context, filePath string) {
 
 	// Notify callbacks about new strings
 	for _, cb := range fw.callbacks {
-		for _, s := range strings {
-			cb(filePath, scanner.ChangeOpModify)
+		for range strings {
+			cb(filePath, ChangeOpModify)
 		}
 	}
 }

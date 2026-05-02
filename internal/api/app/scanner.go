@@ -9,14 +9,14 @@ import (
 
 // API provides scanner endpoints.
 type API struct {
-	service *scannersvc.Service
+	service  *scannersvc.Service
 	importer *locailscanner.TranslationImporter
 }
 
 // NewScannerAPI creates a new scanner API.
 func NewScannerAPI(service *scannersvc.Service) *API {
 	return &API{
-		service: service,
+		service:  service,
 		importer: locailscanner.NewTranslationImporter(),
 	}
 }

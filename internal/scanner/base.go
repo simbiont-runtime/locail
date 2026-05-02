@@ -100,7 +100,7 @@ func (s *SimpleScanner) ScanProject(ctx context.Context, projectPath string) (*S
 			result.Errors = append(result.Errors, ScanError{FilePath: path, Message: err.Error()})
 			return nil
 		}
-		
+
 		// Skip directories
 		if info.IsDir() {
 			// Skip hidden and ignored directories
@@ -112,7 +112,7 @@ func (s *SimpleScanner) ScanProject(ctx context.Context, projectPath string) (*S
 		}
 
 		result.TotalFiles++
-		
+
 		if !s.IsSupported(path) {
 			return nil
 		}

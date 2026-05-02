@@ -114,7 +114,7 @@ func (s *VueScanner) ExtractStrings(content, filePath string) ([]ExtractedString
 
 	for i, line := range lines {
 		lineNum := i + 1
-		
+
 		for _, p := range patterns {
 			matches := p.pattern.FindAllStringSubmatchIndex(line, -1)
 			for _, match := range matches {
@@ -124,30 +124,30 @@ func (s *VueScanner) ExtractStrings(content, filePath string) ([]ExtractedString
 					end := match[3]
 					text := line[start:end]
 					text = strings.TrimSpace(text)
-					
+
 					// Skip empty or very short strings
 					if len(text) < 2 {
 						continue
 					}
-					
+
 					// Skip variable/interpolation patterns like {{ variable }}
 					if p.context == "mustache" && isVariablePattern(text) {
 						continue
 					}
-					
+
 					// Determine context
 					context := determineVueContext(line, text)
-					
+
 					extracted = append(extracted, ExtractedString{
-						FilePath: filePath,
-						Line:     lineNum,
-						Column:   start + 1,
-						Key:      fmt.Sprintf("%s:%d:%d", filePath, lineNum, start+1),
-						Text:     text,
-						Context:  context,
-						Language: "en",
-						Status:   "new",
-						Hash:     hash,
+						FilePath:  filePath,
+						Line:      lineNum,
+						Column:    start + 1,
+						Key:       fmt.Sprintf("%s:%d:%d", filePath, lineNum, start+1),
+						Text:      text,
+						Context:   context,
+						Language:  "en",
+						Status:    "new",
+						Hash:      hash,
 						CreatedAt: time.Now(),
 						UpdatedAt: time.Now(),
 					})
@@ -176,7 +176,7 @@ func isVariablePattern(text string) bool {
 // determineVueContext determines the UI context for a string.
 func determineVueContext(line, text string) string {
 	lineLower := strings.ToLower(line)
-	
+
 	// Common UI attribute contexts
 	contexts := []struct {
 		pattern string
@@ -196,13 +196,13 @@ func determineVueContext(line, text string) string {
 		{`success`, "success-message"},
 		{`warning`, "warning-message"},
 	}
-	
+
 	for _, c := range contexts {
 		if strings.Contains(lineLower, c.pattern) {
 			return c.context
 		}
 	}
-	
+
 	return "text"
 }
 

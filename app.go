@@ -31,6 +31,17 @@ func (a *App) startup(ctx context.Context) {
 	}
 }
 
+// SelectProjectFolder opens a directory selection dialog and returns the selected path.
+func (a *App) SelectProjectFolder(title string) (string, error) {
+	result, err := runtime.OpenDirectoryDialog(a.ctx, runtime.OpenDialogOptions{
+		Title: title,
+	})
+	if err != nil {
+		return "", err
+	}
+	return result, nil
+}
+
 // Greet returns a greeting for the given name
 func (a *App) Greet(name string) string {
 	return fmt.Sprintf("Hello %s, It's show time!", name)

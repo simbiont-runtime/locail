@@ -104,7 +104,7 @@ func main() {
 	scannerAPI := apiapp.NewScannerAPI(scannerSvc)
 
 	// Create application with options
-	err := wails.Run(&options.App{
+	wails.Run(&options.App{
 		Title:     "LLM Translator",
 		Width:     1700,
 		Height:    1000,

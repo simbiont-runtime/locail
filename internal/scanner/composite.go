@@ -21,7 +21,7 @@ func NewCompositeScanner() *CompositeScanner {
 		BaseScanner: NewBaseScanner(),
 		scanners:    make([]Scanner, 0),
 	}
-	
+
 	// Register all language scanners
 	cs.scanners = append(cs.scanners,
 		NewVueScanner(),
@@ -29,7 +29,7 @@ func NewCompositeScanner() *CompositeScanner {
 		NewReactScanner(),
 		NewMarkdownScanner(),
 	)
-	
+
 	return cs
 }
 
@@ -113,7 +113,7 @@ func (cs *CompositeScanner) ExtractStrings(content, filePath string) ([]Extracte
 			return s.ExtractStrings(content, filePath)
 		}
 	}
-	
+
 	ext := strings.ToLower(filepath.Ext(filePath))
 	return nil, fmt.Errorf("no scanner for extension %s", ext)
 }
@@ -126,7 +126,7 @@ func (cs *CompositeScanner) GetSupportedExtensions() []string {
 			extensions[ext] = true
 		}
 	}
-	
+
 	result := make([]string, 0, len(extensions))
 	for ext := range extensions {
 		result = append(result, ext)

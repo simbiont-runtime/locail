@@ -117,31 +117,31 @@ func (s *Service) AutoTranslateNewStrings(ctx context.Context, sourceLang, targe
 // Используется для исключения технических строк и строк, которые не нужно переводить.
 func FilterTranslatableStrings(strings []locailscanner.ExtractedString) []locailscanner.ExtractedString {
 	filtered := make([]locailscanner.ExtractedString, 0)
-	
+
 	for _, s := range strings {
 		// Пропускаем короткие строки (менее 3 символов)
 		if len(s.Text) < 3 {
 			continue
 		}
-		
+
 		// Пропускаем строки, которые выглядят как идентификаторы
 		if isIdentifier(s.Text) {
 			continue
 		}
-		
+
 		// Пропускаем пути файлов и URL
 		if isPathOrURL(s.Text) {
 			continue
 		}
-		
+
 		// Пропускаем строки только с заглавными буквами (вероятно аббревиатуры)
 		if isAllCaps(s.Text) {
 			continue
 		}
-		
+
 		filtered = append(filtered, s)
 	}
-	
+
 	return filtered
 }
 
@@ -165,7 +165,7 @@ func isIdentifier(s string) bool {
 
 // isPathOrURL проверяет, является ли строка путем или URL.
 func isPathOrURL(s string) bool {
-	return len(s) > 0 && (s[0] == '/' || s[0] == '.' || 
+	return len(s) > 0 && (s[0] == '/' || s[0] == '.' ||
 		(len(s) > 4 && (s[:4] == "http" || s[:4] == "www.")))
 }
 

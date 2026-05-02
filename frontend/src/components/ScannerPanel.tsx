@@ -6,6 +6,7 @@ import { Switch } from './ui/switch'
 import { Select } from './ui/select'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { FolderOpen, RefreshCw, Play } from 'lucide-react'
+import * as App from '../../wailsjs/go/main/App'
 
 // Types matching backend
 type ScanConfig = {
@@ -47,9 +48,6 @@ declare const ScannerAPI: {
   GetNewStrings: (projectPath: string) => Promise<ExtractedString[]>
   AutoTranslateNewStrings: (projectPath: string, sourceLang: string, targetLang: string) => Promise<ExtractedString[]>
 }
-
-// Wails runtime is available globally
-declare const window: any
 
 export function ScannerPanel({ onStringsFound }: ScannerPanelProps) {
   const [config, setConfig] = useState<ScanConfig>({
@@ -103,9 +101,7 @@ export function ScannerPanel({ onStringsFound }: ScannerPanelProps) {
 
   const handleProjectPathSelect = useCallback(async () => {
     try {
-      const result = await window.runtime.OpenDirectoryDialog({
-        title: 'Select Project Folder',
-      })
+      const result = await App.SelectProjectFolder('Select Project Folder')
       if (result) {
         setConfig({ ...config, project_path: result })
       }

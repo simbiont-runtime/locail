@@ -22,7 +22,7 @@ type Cache struct {
 // New creates a new cache instance in the specified project root.
 func New(projectRoot string) (*Cache, error) {
 	cacheDir := filepath.Join(projectRoot, ".locallocales")
-	
+
 	// Create directory if it doesn't exist
 	if err := os.MkdirAll(cacheDir, 0755); err != nil {
 		return nil, fmt.Errorf("creating cache directory: %w", err)

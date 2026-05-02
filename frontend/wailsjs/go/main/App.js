@@ -13,3 +13,7 @@ export function SetRunner(arg1) {
 export function Version() {
   return window['go']['main']['App']['Version']();
 }
+
+export function SelectProjectFolder(arg1) {
+  return window['go']['main']['App']['SelectProjectFolder'](arg1);
+}

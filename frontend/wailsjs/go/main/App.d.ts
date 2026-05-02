@@ -7,3 +7,5 @@ export function Greet(arg1:string):Promise<string>;
 export function SetRunner(arg1:jobs.Runner):Promise<void>;
 
 export function Version():Promise<string>;
+
+export function SelectProjectFolder(arg1:string):Promise<string>;

@@ -4,6 +4,7 @@ frontend/dist
 
 vendor/
 data/
+.locallocales/
 
 .idea
 .gocache

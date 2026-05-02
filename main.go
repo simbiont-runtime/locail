@@ -20,6 +20,7 @@ import (
 	exporterusecase "locail/internal/usecase/exporter"
 	"locail/internal/usecase/importer"
 	jobsusecase "locail/internal/usecase/jobs"
+	scannersvc "locail/internal/usecase/scanner"
 	translatorusecase "locail/internal/usecase/translator"
 
 	"github.com/wailsapp/wails/v2"
@@ -94,6 +95,14 @@ func main() {
 	exportAPI := apiapp.NewExportAPI(expSvc)
 	translationsAPI := apiapp.NewTranslationsAPIWithUnits(translationRepo, unitRepo)
 
+	// Scanner service and API
+	scannerSvc, err := scannersvc.NewService(".")
+	if err != nil {
+		println("Scanner service error:", err.Error())
+	}
+	scannerSvc.SetTranslator(transSvc)
+	scannerAPI := apiapp.NewScannerAPI(scannerSvc)
+
 	// Create application with options
 	err := wails.Run(&options.App{
 		Title:     "LLM Translator",
@@ -116,6 +125,7 @@ func main() {
 			jobsAPI,
 			exportAPI,
 			translationsAPI,
+			scannerAPI,
 		},
 	})
 

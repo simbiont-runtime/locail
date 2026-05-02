@@ -19,6 +19,7 @@ import { Pencil, Trash2, RefreshCw, UploadCloud, Plus, FileDiff, Download, Circl
 import { Progress } from './components/ui/progress'
 import ProviderDropdown from './components/ProviderDropdown'
 import GeneralSettings from './components/GeneralSettings'
+import { ScannerPanel } from './components/ScannerPanel'
 
 type ProjectRecord = {
   id: number
@@ -168,7 +169,7 @@ function App() {
   const [onlyUntranslated, setOnlyUntranslated] = useState(false)
   const [dirty, setDirty] = useState(false)
   const [status, setStatus] = useState('Ready.')
-  const [activeTab, setActiveTab] = useState<'projects' | 'files' | 'settings'>('projects')
+  const [activeTab, setActiveTab] = useState<'projects' | 'files' | 'scanner' | 'settings'>('projects')
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
   const [newProjectOpen, setNewProjectOpen] = useState(false)
   const [editProject, setEditProject] = useState<ProjectRecord | null>(null)
@@ -1050,7 +1051,7 @@ function App() {
           </div>
 
           <div className="px-3 pt-3">
-            <div role="tablist" aria-label="Sidebar tabs" className="grid grid-cols-3 gap-2">
+            <div role="tablist" aria-label="Sidebar tabs" className="grid grid-cols-4 gap-2">
               <button
                 data-tab="projects"
                 className={`tab-btn ${activeTab === 'projects' ? 'tab-active' : ''}`}
@@ -1064,6 +1065,13 @@ function App() {
                 onClick={() => setActiveTab('files')}
               >
                 Files
+              </button>
+              <button
+                data-tab="scanner"
+                className={`tab-btn ${activeTab === 'scanner' ? 'tab-active' : ''}`}
+                onClick={() => setActiveTab('scanner')}
+              >
+                Scanner
               </button>
               <button
                 data-tab="settings"
@@ -1427,6 +1435,10 @@ function App() {
                   }}
                 />)}
               </div>
+            </section>
+          ) : activeTab === 'scanner' ? (
+            <section className="grow overflow-auto">
+              <ScannerPanel />
             </section>
           ) : (
           <section id="tableWrap" className="grow overflow-auto">

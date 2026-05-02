@@ -236,3 +236,15 @@ export function CanResolveFilePaths() {
 export function ResolveFilePaths(files) {
     return window.runtime.ResolveFilePaths(files);
 }
+
+export function OpenDirectoryDialog(options) {
+    return window.runtime.OpenDirectoryDialog(options);
+}
+
+export function OpenFileDialog(options) {
+    return window.runtime.OpenFileDialog(options);
+}
+
+export function SaveFileDialog(options) {
+    return window.runtime.SaveFileDialog(options);
+}
